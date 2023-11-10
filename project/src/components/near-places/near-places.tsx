@@ -1,7 +1,12 @@
-import {offersData} from '../../mocks/offersData';
+import {OfferType} from '../../types/offerType';
 import PlaceCard from '../place-card/place-card';
 
-function NearPlaces():JSX.Element {
+
+type NearPlacesProps = {
+  data: OfferType[];
+}
+
+function NearPlaces(props: NearPlacesProps): JSX.Element {
   return (
     <div className="container">
       <section className="near-places">
@@ -10,7 +15,7 @@ function NearPlaces():JSX.Element {
         </h2>
         <div className="near-places__list">
           {
-            offersData.slice(0, 3).map((element, index) => <div className={'near-places__card'} key={element.id}><PlaceCard data={element}/></div>)
+            props.data.map((element, index) => <div className={'near-places__card'} key={element.id}><PlaceCard data={element}/></div>)
           }
         </div>
       </section>
@@ -19,5 +24,5 @@ function NearPlaces():JSX.Element {
 }
 
 
-export default NearPlaces();
+export default NearPlaces;
 

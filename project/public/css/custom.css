@@ -111,6 +111,10 @@
   background-image: none;
 }
 
+.property__map {
+  background-image: none;
+}
+
 .map {
   height: 100%;
 }

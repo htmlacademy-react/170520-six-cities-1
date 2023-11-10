@@ -29,6 +29,7 @@ function Map(props: MapProps): JSX.Element {
           lng: 4.895168,
         },
         zoom: 12,
+        scrollWheelZoom: false
       });
 
       leaflet

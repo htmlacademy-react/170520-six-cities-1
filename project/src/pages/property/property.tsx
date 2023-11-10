@@ -3,14 +3,14 @@ import Footer from '../../components/footer/footer';
 import {useParams} from 'react-router-dom';
 import {OfferType} from '../../types/offerType';
 import {offersData} from '../../mocks/offersData';
+import {commentsData} from '../../mocks/comments';
 import {pluralize, starsToPct} from '../../utils';
 import {HOUSING_KINDS} from '../../const';
 import {settings} from '../../settings';
 import NotFound from '../not-found/not-found';
-import PlaceCard from '../../components/place-card/place-card';
-import {commentsData} from '../../mocks/comments';
-import ReviewsItem from '../../components/reviews-item/reviews-item';
-import ReviewsForm from '../../components/reviews-form/reviews-form';
+import NearPlaces from '../../components/near-places/near-places';
+import Reviews from '../../components/reviews/reviews';
+import Map from '../../components/map/map';
 
 function Property(): JSX.Element {
 
@@ -111,33 +111,16 @@ function Property(): JSX.Element {
                   }
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  {
-                    commentsData.map((element) => <ReviewsItem key={element.id} data={element}/>)
-                  }
-                </ul>
-                <div className="reviews__form">
-                  <ReviewsForm />
-                </div>
-              </section>
+              <div className="property__reviews">
+                <Reviews data={commentsData}/>
+              </div>
             </div>
           </div>
-          <section className="property__map map"></section>
-        </section>
-        <div className="container">
-          <section className="near-places">
-            <h2 className="near-places__title">
-              Other places in the neighbourhood
-            </h2>
-            <div className="near-places__list">
-              {
-                offersData.filter((element) => element.id !== offerId).slice(0, 3).map((element) => <div className={'near-places__card'} key={element.id}><PlaceCard data={element}/></div>)
-              }
-            </div>
+          <section className="property__map">
+            <Map data={offersData.slice(0, 3)} />
           </section>
-        </div>
+        </section>
+        <NearPlaces data={offersData.slice(0, 3)}/>
       </main>
       <Footer/>
     </div>
