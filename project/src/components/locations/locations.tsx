@@ -6,7 +6,7 @@ import {useAppSelector} from '../../index';
 
 function Locations(): JSX.Element {
   const dispatch = useDispatch();
-  const currentCity = useAppSelector(state => state.city);
+  const currentCity = useAppSelector((state) => state.city);
 
   const handleChangeCity = (newCity: string) => {
     dispatch(changeCity(newCity));

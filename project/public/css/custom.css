@@ -118,3 +118,19 @@
 .map {
   height: 100%;
 }
+
+.places__sorting-caption {
+  margin-right: 8px;
+}
+
+.places__options {
+  overflow: hidden;
+}
+
+.places__option {
+  user-select: none;
+}
+
+.property__map {
+  background-image: none;
+}

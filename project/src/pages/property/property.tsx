@@ -10,7 +10,6 @@ import {settings} from '../../settings';
 import NotFound from '../not-found/not-found';
 import NearPlaces from '../../components/near-places/near-places';
 import Reviews from '../../components/reviews/reviews';
-import Map from '../../components/map/map';
 
 function Property(): JSX.Element {
 
@@ -116,9 +115,6 @@ function Property(): JSX.Element {
               </div>
             </div>
           </div>
-          <section className="property__map">
-            <Map data={offersData.slice(0, 3)} />
-          </section>
         </section>
         <NearPlaces data={offersData.slice(0, 3)}/>
       </main>

@@ -5,13 +5,18 @@ import {AppRoute, HOUSING_KINDS} from '../../const';
 
 type PlaceCardProps = {
   horizontal?: boolean;
+  onPlaceCardHover?: (listItemName: OfferType) => void;
   data: OfferType;
 }
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
 
+  const placeCardHoverHandler = () => {
+    props.onPlaceCardHover?.(props.data);
+  };
+
   return (
-    <article className={`place-card${ props.horizontal ? ' place-card--horizontal' : ''}`}>
+    <article onMouseEnter={placeCardHoverHandler} className={`place-card${ props.horizontal ? ' place-card--horizontal' : ''}`}>
       {
         props.data.isPremium &&
         <div className="place-card__mark">

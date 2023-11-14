@@ -1,68 +1,65 @@
 import {useEffect, useRef} from 'react';
 import {OfferType} from '../../types/offerType';
-import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {URL_MARKER_DEFAULT} from '../../const';
+import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import useMap from '../../hooks/useMap';
+import {Icon, Marker, layerGroup} from 'leaflet';
 
 type MapProps = {
   data: OfferType[];
+  selectedPoint: OfferType | null;
 }
 
-function Map(props: MapProps): JSX.Element {
+const defaultCustomIcon = new Icon({
+  iconUrl: URL_MARKER_DEFAULT,
+  iconSize: [27, 39],
+  iconAnchor: [14, 39]
+});
+
+const currentCustomIcon = new Icon({
+  iconUrl: URL_MARKER_CURRENT,
+  iconSize: [27, 39],
+  iconAnchor: [14, 39]
+});
+
+function Map({data, selectedPoint}: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
-  let mapRenderedFlag = false;
 
-  const defaultCustomIcon = leaflet.icon({
-    iconUrl: URL_MARKER_DEFAULT,
-    iconSize: [27, 39],
-    iconAnchor: [20, 40],
-  });
+  const city = data[0].city;
+  const map = useMap(mapRef, city);
 
   useEffect(() => {
+    if (map) {
+      const placeLayer = layerGroup().addTo(map);
+      map.setView(
+        [
+          data[0].city.location.latitude,
+          data[0].city.location.longitude
+        ],
+        data[0].city.location.zoom
+      );
 
-    if (mapRef.current !== null && !mapRenderedFlag) {
-
-      const instance = leaflet.map(mapRef.current, {
-        center: {
-          lat: 52.370216,
-          lng: 4.895168,
-        },
-        zoom: 12,
-        scrollWheelZoom: false
+      data.forEach((offer) => {
+        const marker = new Marker({
+          lat: offer.location.latitude,
+          lng: offer.location.longitude
+        });
+        marker.setIcon(
+          selectedPoint && offer.id === selectedPoint.id
+            ? currentCustomIcon
+            : defaultCustomIcon
+        ).addTo(placeLayer);
       });
 
-      leaflet
-        .tileLayer(
-          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-          {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          },
-        )
-        .addTo(instance);
-
-      props.data.map((element) => {
-        leaflet
-          .marker({
-            lat: element.location.latitude,
-            lng: element.location.longitude,
-          }, {
-            icon: defaultCustomIcon,
-          })
-          .addTo(instance);
-      });
-
-
-      mapRenderedFlag = true;
+      return () => {
+        map.removeLayer(placeLayer);
+      };
     }
-
-
-  }, [mapRef]);
+  }, [map, city, data, selectedPoint]);
 
   return (
-    <div className="map" ref={mapRef}>
-
-    </div>
+    <section className="map" ref={mapRef}></section>
   );
 }
 

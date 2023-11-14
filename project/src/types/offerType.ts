@@ -21,3 +21,12 @@ export type OfferType = {
   location: LocationType;
   city: CityType;
 }
+
+export type City = {
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+}

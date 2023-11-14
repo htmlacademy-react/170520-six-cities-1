@@ -18,7 +18,6 @@ export const HOUSING_KINDS = {
   'hotel': 'Hotel',
 } as const;
 
-
 export const MONTHS = [
   'January',
   'February',
@@ -34,6 +33,12 @@ export const MONTHS = [
   'December',
 ];
 
+export enum SORT {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first',
+}
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 
